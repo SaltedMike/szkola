@@ -40,39 +40,42 @@ import random
 
 def GenerujPesel(Dzien, Miesiac, Rok, Plec):
     # Wymagane wartości
-    if (Dzien > 31 or Dzien < 1 or Miesiac < 1 or Miesiac > 12 or Rok > 2024 or Rok < 1900):
-        return False
+    if Plec.lower() == "kobieta" or Plec.lower() == 'mezczyzna':
+        if (Dzien > 31 or Dzien < 1 or Miesiac < 1 or Miesiac > 12 or Rok > 2024 or Rok < 1900):
+           return False
 
-    # Dwie ostatnie litery z podanego roku i uzupełnianie
-    if Rok >= 2000:
-        Miesiac += 20
-                                 
-    litery = str(Rok)[-2:] + str(Miesiac).rjust(2, '0') + str(Dzien).rjust(2, '0') #dwie ostatnie liczby roku  i #dopelnianie 0 na poczatku do 2 liczb
+        # Dwie ostatnie litery z podanego roku i uzupełnianie
+        if Rok >= 2000:
+            Miesiac += 20
 
-    for _ in range(3):
-        a = random.randint(0, 9)
-        litery += str(a)
+        litery = str(Rok)[-2:] + str(Miesiac).rjust(2, '0') + str(Dzien).rjust(2, '0') #dwie ostatnie liczby roku  i #dopelnianie 0 na poczatku do 2 liczb
 
-    if Plec.lower() == 'kobieta':
-        litery += str(random.randint(0, 4) * 2)
-    elif Plec.lower() == 'mezczyzna':
-        litery += str(random.randint(0, 4) * 2 + 1)
+        for _ in range(3):
+            a = random.randint(0, 9)
+            litery += str(a)
+
+        if Plec.lower() == 'kobieta':
+            litery += str(random.randint(0, 4) * 2)
+        elif Plec.lower() == 'mezczyzna':
+            litery += str(random.randint(0, 4) * 2 + 1)
+        else:
+            return False
+
+        numer = []
+        for znak in litery:
+            numer.append(int(znak))
+
+        suma_wag = (numer[0] + numer[1] * 3 + numer[2] * 7 + numer[3] * 9 + numer[4] +
+                    numer[5] * 3 + numer[6] * 7 + numer[7] * 9 + numer[8] + numer[9] * 3) % 10
+
+        numer.append(suma_wag)
+
+        wynik = ''
+        for cyfra in numer:
+            wynik += str(cyfra)
+        return wynik
     else:
         return False
-
-    numer = []
-    for znak in litery:
-        numer.append(int(znak))
-
-    suma_wag = (numer[0] + numer[1] * 3 + numer[2] * 7 + numer[3] * 9 + numer[4] +
-                numer[5] * 3 + numer[6] * 7 + numer[7] * 9 + numer[8] + numer[9] * 3) % 10
-
-    numer.append(suma_wag)
-
-    wynik = ''
-    for cyfra in numer:
-        wynik += str(cyfra)
-    return wynik
 
 
 
@@ -91,9 +94,9 @@ plec = input("Podaj płeć (Kobieta/Mezczyzna): ")
 
 GeneratorPESELU = GenerujPesel(dzien, miesiac, rok, plec)
 
-
-while not SprawdzPesel(GeneratorPESELU):
-    GeneratorPESELU = GenerujPesel(dzien, miesiac, rok, plec)
+if plec.lower() in ["kobieta","mezczyzna"]:
+     while not SprawdzPesel(GeneratorPESELU):
+         GeneratorPESELU = GenerujPesel(dzien, miesiac, rok, plec)
 
 if GeneratorPESELU:
     print("Przykładowy PESEL to:", GeneratorPESELU)
