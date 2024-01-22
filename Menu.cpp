@@ -9,7 +9,7 @@ int Menu()
     cout<<endl;
     cout<<"1. Dodaj element tablicy"<<endl;
     cout<<"2. Usun element tablicy"<<endl;
-    cout<<"3. Wyœwietl elementy tablicy"<<endl;
+    cout<<"3. WyÅ“wietl elementy tablicy"<<endl;
     cout<<"4. Zapisz do pliku"<<endl;
     cout<<"5. Wczytaj z pliku"<<endl;
     cout<<"6. Wyjscie z programu"<<endl;
